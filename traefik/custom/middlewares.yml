@@ -1,0 +1,16 @@
+http:
+  middlewares:
+    SecHeaders:
+      headers:
+        frameDeny: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsSeconds: 31536000
+
+        Content-Security-Policy: default-src 'self'; img-src 'self'; object-src 'none'
+        referrerPolicy: "same-origin"
+        featurePolicy: "vibrate 'self'; geolocation 'self'; midi 'self'; notifications 'self'; push 'self'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'self'; fullscreen 'self'"
+

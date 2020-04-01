@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  rocket:
+    image: rocket.chat:3
+    container_name: rocket
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - ROOT_URL=https://rocket.mydomain.com
+      - MONGO_URL=mongodb://mongo:27017/rocketchat
+      - MONGO_OPLOG_URL=mongodb://mongo:27017/local?replSet=rs0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.services.myrocketservice.loadbalancer.server.port=3000"
+      - "traefik.http.routers.myrocketrouter.rule=Host(`rocket.mydomain.com`)"
+      - "traefik.http.routers.myrocketrouter.entrypoints=websecure"
+    networks:
+      - rocket_lan
+      - traefik
+
+networks:
+  rocket_lan:
+    external: true
+
+  traefik:
+    external: true
