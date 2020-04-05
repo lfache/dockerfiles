@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+    traefik:
+        image: traefik:2.2
+        container_name: traefik
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+        environment:
+            - "TZ=Europe/Paris"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./traefik.yml:/etc/traefik/traefik.yml:ro
+            - ./custom/:/etc/traefik/custom/:ro
+            - traefik_ssl:/letsencrypt
+        networks:
+            - traefik
+
+volumes:
+    traefik_ssl:
+        name: traefik_ssl
+
+networks:
+    traefik:
+        name: traefik
